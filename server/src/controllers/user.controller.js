@@ -27,7 +27,8 @@ const generateAccessAndRefreshToken = async (email) => {
 
 const options = {
     httpOnly: true,
-    secure: true
+    secure: true,
+    sameSite: "None"
 }
 
 const generateEmailVerification = asynchandler(async (req, res) => {
