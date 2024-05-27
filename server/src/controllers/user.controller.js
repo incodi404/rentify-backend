@@ -234,5 +234,9 @@ const verifyAndDeleteAccount = asynchandler(async(req,res)=>{
     return res.status(200).json(ApiResponse(200, "Account Deleted!"))
 })
 
+const checkServer = asynchandler(async(req,res)=>{
+    return res.status(200).json(ApiResponse(200, "Server is ok"))
+})
 
-export { generateEmailVerification, verifyEmail, login, getUser, logout, deleteAccountEmailGenerate, verifyAndDeleteAccount }
+
+export { generateEmailVerification, verifyEmail, login, getUser, logout, deleteAccountEmailGenerate, verifyAndDeleteAccount, checkServer }

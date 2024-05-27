@@ -5,6 +5,7 @@ import { interested } from "../controllers/interested.controller.js";
 
 const userRouter = Router()
 
+userRouter.route("/").get(checkServer)
 userRouter.route("/email-verification").post(generateEmailVerification)
 userRouter.route("/verify-email/:verifyEmailToken").get(verifyEmail)
 userRouter.route("/login").post(login)
