@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteAccountEmailGenerate, generateEmailVerification, getUser, login, logout, verifyAndDeleteAccount, verifyEmail } from "../controllers/user.controller.js";
+import { deleteAccountEmailGenerate, generateEmailVerification, getUser, login, logout, verifyAndDeleteAccount, verifyEmail, checkServer } from "../controllers/user.controller.js";
 import { verifyLogin } from "../middlewares/verifyLogin.middleware.js";
 import { interested } from "../controllers/interested.controller.js";
 
