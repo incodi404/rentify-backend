@@ -2,7 +2,8 @@ import { ApiError } from "../utils/ApiError.utils.js"
 import { asynchandler } from "../utils/asynchandler.utils.js"
 import { Post } from "../models/post.model.js"
 import { mailSend } from "../utils/nodemailer.utils.js"
-import {Interested} from "../models/interested.model.js"
+import { Interested } from "../models/interested.model.js"
+import mongoose from "mongoose"
 
 const interested = asynchandler(async (req, res) => {
     const { postId } = req.body
@@ -16,6 +17,11 @@ const interested = asynchandler(async (req, res) => {
     if (user?.designation != "buyer") { return res.status(400).json(ApiError(400, "You are not a buyer!")) }
 
     const post = await Post.aggregate([
+        {
+            '$match': {
+                '_id': new mongoose.Types.ObjectId(postId)
+            }
+        },
         {
             '$lookup': {
                 'from': 'users',
@@ -54,14 +60,14 @@ const interested = asynchandler(async (req, res) => {
 
     const mailToBuyer = mailSend(user?.email, sellerData, `Owner Information of ${post[0]['homeName']}`)
 
-    if(!mailToSeller || !mailToBuyer) {return res.status(500).json(ApiError(500, "Sending mail to buyer or seller is failed!"))}
+    if (!mailToSeller || !mailToBuyer) { return res.status(500).json(ApiError(500, "Sending mail to buyer or seller is failed!")) }
 
     const interestedList = await Interested.create({
         postId: postId,
         userId: user?._id
     })
 
-    if(!interestedList) {return res.status(500).json(ApiError(500, "Adding data to interested list is failed!"))}
+    if (!interestedList) { return res.status(500).json(ApiError(500, "Adding data to interested list is failed!")) }
 
     return res.status(200).json(ApiError(200, "We have sent email to you and seller. Seller will contact soon.", post[0]))
 })
